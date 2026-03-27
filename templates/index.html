@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive K8s App</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Interactive Kubernetes App</h1>
+
+    <input type="text" id="name" placeholder="Enter your name">
+    <button onclick="sendName()">Greet Me</button>
+
+    <br>
+
+    <button onclick="getCount()">Show Visit Count</button>
+
+    <div id="result"></div>
+
+    <script>
+        function sendName() {
+            const name = document.getElementById("name").value;
+
+            fetch('/greet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("result").innerText = data.message;
+            });
+        }
+
+        function getCount() {
+            fetch('/count')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("result").innerText =
+                    "Visited: " + data.count + " times";
+            });
+        }
+    </script>
+
+</body>
+</html>
